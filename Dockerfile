@@ -35,6 +35,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 RUN python3 -m pip install --upgrade pip setuptools wheel
 
+RUN python3 -m pip install torchaudio --index-url https://download.pytorch.org/whl/cu128
+
 RUN python3 -m pip install \
     "habibi-tts==0.1.1" \
     fastapi \
@@ -90,8 +92,10 @@ RUN chmod +x /app/smoke_test.sh && \
     python3 - <<'PY'
 import importlib.metadata
 import torch
+import torchaudio
 print("habibi-tts", importlib.metadata.version("habibi-tts"))
 print("torch", torch.__version__)
+print("torchaudio", torchaudio.__version__)
 print("cuda build", torch.version.cuda)
 PY
 
